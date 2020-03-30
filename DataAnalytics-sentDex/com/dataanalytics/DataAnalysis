@@ -1,0 +1,24 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("/Users/sahilgogna/Documents/ML/DataAnalytics-sentDex/data/avocado.csv")
+df.head(3)
+df.tail(3)
+
+# getting value based upon column name
+df['AveragePrice']
+
+# printing first few values
+df['AveragePrice'].head()
+
+# filtering data based on a key
+albany_df = df[ df['region'] == "Albany"]
+
+# we have an extra column as index, we want to make another column index
+# either you can do reassignment as it returns a new reference
+albany_df = albany_df.set_index("Date").head()
+#or
+# albany_df.set_index("Date", inplace=True)
+
+albany_df.plot()
+plt.show()
