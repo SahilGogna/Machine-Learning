@@ -1,0 +1,21 @@
+# 3- we're going to change up the dataset and play with minimum wage data now.
+import pandas as pd
+
+df = pd.read_csv("/Users/sahilgogna/Documents/ML/DataAnalytics-sentDex/data/MinimumWageData.csv", encoding="latin")
+
+# let's go ahead and just save our own version, with utf-8 encoding!
+df.to_csv("/Users/sahilgogna/Documents/ML/DataAnalytics-sentDex/data/minwage.csv", encoding="utf-8")
+
+gb = df.groupby("State")
+gb.get_group("Alabama").set_index("Year").head()
+
+# now this df has min and max for each year for each state, now we want to group them
+act_min_wage = pd.DataFrame()
+
+for name, group in df.groupby("State"):
+    if act_min_wage.empty:
+        act_min_wage = group.set_index("Year")[["Low.2018"]].rename(columns={"Low.2018": name})
+    else:
+        act_min_wage = act_min_wage.join(group.set_index("Year")[["Low.2018"]].rename(columns={"Low.2018": name}))
+
+print(act_min_wage.head())
